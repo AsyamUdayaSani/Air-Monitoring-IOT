@@ -24,12 +24,9 @@ Sistem IoT untuk memantau suhu dan kelembapan ruang arsip secara real-time mengg
 
 ## Arsitektur Sistem
 
-```
-ESP32 + BME280 ──► Mosquitto (MQTT) ──► Telegraf ──┬──► InfluxDB ──► Grafana ──► Telegram
-                                                     └──► PostgreSQL (backup)
-
-Web Form Kalibrasi ◄──── (publish command) ──► Mosquitto ──► ESP32 (subscribe)
-```
+<div style="display: flex; align-items: flex-start; gap: 20px;">
+<img src="Images/Cloud_Architecture.png" alt="Aimboard Photo" width="1000"/>
+<div>
 
 Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor. ESP32 terhubung ke WiFi kantor dan mengirim data secara wireless melalui MQTT — tidak ada kabel USB yang terpasang permanen ke perangkat.
 
