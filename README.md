@@ -1,5 +1,10 @@
 # Sistem Monitoring Suhu & Kelembapan - Ruang Arsip
 
+
+<div style="display: flex; align-items: flex-start; gap: 20px;">
+<img src="Images/Image_Prototype.jpeg" alt="Aimboard Photo" width="600"/>
+<div>
+
 Sistem IoT untuk memantau suhu dan kelembapan ruang arsip secara real-time menggunakan ESP32, sensor BME280, MQTT, InfluxDB, PostgreSQL, dan Grafana — lengkap dengan kalibrasi jarak jauh dan notifikasi alert via Telegram.
 
 ## Daftar Isi
