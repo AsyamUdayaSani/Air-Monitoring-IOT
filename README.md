@@ -19,8 +19,8 @@ Sistem IoT untuk memantau suhu dan kelembapan ruang arsip secara real-time mengg
 - [Alert / Notifikasi](#alert--notifikasi)
 - [Menambah Node Baru](#menambah-node-baru)
 - [Troubleshooting](#troubleshooting)
-- [Catatan Jaringan Kantor](#catatan-jaringan-kantor)
-- [Maintenance](#maintenance)
+
+&nbsp;
 
 ## Arsitektur Sistem
 
@@ -29,6 +29,8 @@ Sistem IoT untuk memantau suhu dan kelembapan ruang arsip secara real-time mengg
 <div>
 
 Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor. ESP32 terhubung ke WiFi kantor dan mengirim data secara wireless melalui MQTT — tidak ada kabel USB yang terpasang permanen ke perangkat.
+
+&nbsp;
 
 ## Komponen Hardware
 
@@ -39,6 +41,8 @@ Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor
 | BME280 | Sensor suhu dan kelembapan |
 | LCD 16x2 | Menampilkan data pada alat |
 | 1x4 Push button | Mengkonfigurasi alat secara fisik |
+
+&nbsp;
 
 ## Struktur Proyek
 
@@ -62,6 +66,8 @@ IoT_Server/
     └── bme280_main.ino
 ```
 
+&nbsp;
+
 ## Cara Kerja
 
 ### Alur Data
@@ -82,6 +88,8 @@ Kalibrasi bisa dilakukan dengan 3 cara:
 1. **Tombol fisik** — lihat [Kalibrasi Sensor](#kalibrasi-sensor)
 2. **Form kalibrasi jarak jauh** — buka `http://<IP_SERVER>:5002` dari browser manapun di jaringan yang sama
 3. **Publish MQTT manual** ke topic `arsip/sensor_bme280/cmd` dengan payload JSON seperti `{"temp_offset": 0.5, "hum_offset": -1}`
+
+&nbsp;
 
 ## Setup & Instalasi
 
@@ -106,6 +114,8 @@ Install library yang dibutuhkan lewat Library Manager:
 ### 3. Akses dashboard
 Buka `http://<IP_SERVER>:3000` (Grafana), login dengan kredensial di `docker-compose.yml`.
 
+&nbsp;
+
 ## Kalibrasi Sensor
 
 ### Tombol fisik
@@ -124,6 +134,8 @@ raw = (nilai_sekarang - offset_saat_ini) / multiplier_saat_ini
 multiplier_baru = (nilai_target - offset_saat_ini) / raw
 ```
 
+&nbsp;
+
 ## Dashboard Grafana
 
 Dashboard utama (`Monitoring Suhu & Kelembapan - Arsip Room`) menggunakan **template variable** (`sensor_topic`) yang otomatis mendeteksi node mana saja yang sedang aktif mengirim data dalam 10 menit terakhir. Artinya:
@@ -132,11 +144,13 @@ Dashboard utama (`Monitoring Suhu & Kelembapan - Arsip Room`) menggunakan **temp
 
 **Penting:** Dashboard ini di-*provision* dari file JSON di `grafana/provisioning/dashboards/`. Jangan edit langsung lewat UI Grafana untuk perubahan permanen — edit file JSON-nya, lalu restart container Grafana. Edit lewat UI bisa tertimpa kembali oleh file provisioning saat Grafana restart.
 
-## Alert / Notifikasi
+### Alert / Notifikasi
 
 Alert dikirim ke **Telegram** saat suhu/kelembapan keluar dari ambang batas aman (default: 18-22°C, 45-55% RH — standar umum untuk preservasi arsip kertas/foto). Alert butuh kondisi bertahan minimal 5 menit sebelum benar-benar terkirim, untuk menghindari alarm palsu dari fluktuasi sesaat.
 
 Setup dilakukan lewat Grafana → Alerting → Contact Points (Telegram Bot Token + Chat ID) dan Alert Rules.
+
+&nbsp;
 
 ## Menambah Node Baru
 
@@ -147,6 +161,8 @@ Setup dilakukan lewat Grafana → Alerting → Contact Points (Telegram Bot Toke
 2. Tidak perlu mengubah konfigurasi Telegraf — sudah berlangganan wildcard `arsip/#`
 3. Tidak perlu mengubah dashboard Grafana — node baru otomatis muncul dalam 10 menit setelah mulai mengirim data
 4. Tambahkan entri device baru di `offset-control/app.py` (dictionary `DEVICES`) jika ingin bisa dikalibrasi lewat form web
+
+&nbsp;
 
 ## Troubleshooting
 
