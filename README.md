@@ -123,11 +123,6 @@ Jika sensor tidak akurat dibanding alat referensi:
 raw = (nilai_sekarang - offset_saat_ini) / multiplier_saat_ini
 multiplier_baru = (nilai_target - offset_saat_ini) / raw
 ```
-Tips: biarkan kedua sensor (ESP32 dan alat referensi) diam berdampingan minimal 15-30 menit sebelum mengambil data acuan, agar suhu tubuh/napas tidak mempengaruhi pembacaan.
-
-### Verifikasi independen (tanpa alat referensi kantor)
-- **Air es (0°C):** rendam sensor di air es yang sudah dihancurkan, tunggu 3-5 menit
-- **Larutan garam jenuh (75% RH):** garam dapur + sedikit air dalam wadah tertutup, sensor di dalam (tidak menyentuh garam basah), tunggu semalaman
 
 ## Dashboard Grafana
 
@@ -163,21 +158,8 @@ Setup dilakukan lewat Grafana → Alerting → Contact Points (Telegram Bot Toke
 | Grafana gagal kirim alert Telegram (TLS error) | CA certificate bundle di image Grafana kadaluarsa — jalankan `docker-compose pull grafana && docker-compose up -d --force-recreate grafana` |
 | Offset kalibrasi hilang setelah restart | Pastikan `Preferences` library benar-benar tersimpan (`saveOffsetsToFlash()` terpanggil setiap ada perubahan) |
 | Data sensor melonjak ekstrem sesaat (ratusan derajat) | Sensor error/NaN sesaat, biasanya sebelum Forced Mode diterapkan — bisa diabaikan jika hanya beberapa titik data |
+| IP server sering berubah setelah listrik padam/router restart | Gunakan **IP statis** untuk server agar tidak berubah setiap kali terjadi restart router/listrik padam |
+| Image Docker/CA certificate lama kelamaan kadaluarsa | **Watchtower** berjalan otomatis setiap minggu untuk memperbarui image Docker tanpa perlu campur tangan manual |
+| Koneksi ESP32 tidak stabil dalam jangka panjang | **ESP32 melakukan restart terjadwal setiap 12 jam** (mensimulasikan efek re-upload kode) untuk menjaga kestabilan koneksi jangka panjang |
+| Perlu backup data di luar database | Cek folder `./logs` secara berkala — berisi backup mentah data sensor dari Telegraf |
 
-## Catatan Jaringan Kantor
-
-Jaringan WiFi kantor (ANRI) memiliki **AP Isolation / Client Isolation** — sebuah pengaturan keamanan yang mencegah perangkat saling berkomunikasi langsung meski berada di WiFi yang sama. Ini bukan bug pada sistem ini, dan **tidak bisa diperbaiki dari sisi ESP32/kode** — solusi permanen harus dari tim IT (whitelist VLAN khusus IoT, atau menonaktifkan isolation untuk device tertentu).
-
-Karena keterbatasan ini:
-- Broker MQTT **harus** berjalan di server yang bisa diakses ESP32 (bukan laptop pribadi yang berpindah-pindah jaringan)
-- Gunakan IP statis untuk server agar tidak berubah setiap kali terjadi restart router/listrik padam
-
-## Maintenance
-
-- **Watchtower** berjalan otomatis setiap minggu untuk memperbarui image Docker (termasuk CA certificate bundle) tanpa perlu campur tangan manual
-- **ESP32 melakukan restart terjadwal setiap 12 jam** (mensimulasikan efek re-upload kode) untuk menjaga kestabilan koneksi jangka panjang
-- Cek folder `./logs` secara berkala jika ingin backup manual di luar database
-
----
-
-*Dibangun sebagai bagian dari sistem monitoring lingkungan ruang arsip. Untuk pertanyaan lebih lanjut mengenai kode atau arsitektur, silakan hubungi pengelola repository ini.*
