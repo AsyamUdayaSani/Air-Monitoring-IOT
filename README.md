@@ -32,13 +32,13 @@ Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor
 
 ## Komponen Hardware
 
-| Node | Sensor | Fungsi |
-|---|---|---|
-| Node 1 | ESP32 + BME280 | Suhu, kelembapan, tekanan udara. Sensor utama, akurasi tinggi. |
-
-Node BME280 juga dilengkapi:
-- LCD 16x2 (I2C) untuk menampilkan data secara lokal
-- 4 push button untuk kalibrasi manual langsung di perangkat
+| Komponen | Fungsi |
+|---|---|
+| Kotak IOT | Menyimpan semua kabel, sensor, dan MCU |
+| ESP32 | Menjalankan program dan koneksi dengan jaringan |
+| BME280 | Sensor suhu dan kelembapan |
+| LCD 16x2 | Menampilkan data pada alat |
+| 1x4 Push button | Mengkonfigurasi alat secara fisik |
 
 ## Struktur Proyek
 
