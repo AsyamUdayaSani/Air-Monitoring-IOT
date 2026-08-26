@@ -75,6 +75,25 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro   # <-- auto-setup datasource & dashboard
 
+  # 6. Auto-updater (Watchtower) - refreshes container images periodically
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 604800 --cleanup
+
+# 7. Remote Sensor Calibration Control Panel
+  offset-control:
+    build: ./offset-control
+    container_name: offset-control
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    environment:
+      - MQTT_SERVER=mosquitto
+
 volumes:
   influxdb-data:
   grafana-data:
