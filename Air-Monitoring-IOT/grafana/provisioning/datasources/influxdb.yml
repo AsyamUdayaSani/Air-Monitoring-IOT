@@ -1,0 +1,16 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB-SensorData
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: true
+    jsonData:
+      version: Flux
+      organization: kantor-arsip
+      defaultBucket: sensor_data
+      tlsSkipVerify: true
+    secureJsonData:
+      token: token-rahasia-admin-12345
+    editable: true
