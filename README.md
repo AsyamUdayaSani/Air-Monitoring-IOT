@@ -151,8 +151,8 @@ Buka `http://<IP_SERVER>:3000` (Grafana), login dengan kredensial di `docker-com
 
 | Tombol | Fungsi |
 |---|---|
-| 1 (MODE) | Pindah mode: Normal → Edit Suhu → Edit Kelembapan → Normal |
-| 2 (UP) | Menambah offset pada mode yang sedang aktif |
+| 1 (UP) | Menambah offset pada mode Edit yang sedang akti |
+| 2 (MODE) | Pindah mode: Normal → Edit Suhu → Edit Kelembapan → Normal |
 | 3 (RESET) | Di mode Normal: tampilkan/sembunyikan offset di LCD. Di mode Edit: kembalikan offset ke default |
 | 4 (DOWN) | Mengurangi offset pada mode yang sedang aktif |
 
