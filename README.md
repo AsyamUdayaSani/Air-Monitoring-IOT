@@ -46,7 +46,7 @@ Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor
 ## Wiring Sistem
 
 <div style="display: flex; align-items: flex-start; gap: 20px;">
-<img src="Images/Wiring.jpg" alt="Aimboard Photo" width="1000"/>
+<img src="Images/Wiring.jpg" alt="Aimboard Photo" width="610"/>
 <div>
 
 ### Node 1 
