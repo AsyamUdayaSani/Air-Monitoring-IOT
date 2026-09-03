@@ -11,6 +11,7 @@ Sistem IoT untuk memantau suhu dan kelembapan ruang arsip secara real-time mengg
 
 - [Arsitektur Sistem](#arsitektur-sistem)
 - [Komponen Hardware](#komponen-hardware)
+- [Wiring / Skema Pengkabelan](#wiring-sistem)
 - [Struktur Proyek](#struktur-proyek)
 - [Cara Kerja](#cara-kerja)
 - [Setup & Instalasi](#setup--instalasi)
@@ -41,6 +42,34 @@ Semua service backend berjalan di dalam **Docker** pada satu PC server di kantor
 | BME280 | Sensor suhu dan kelembapan |
 | LCD 16x2 | Menampilkan data pada alat |
 | 1x4 Push button | Mengkonfigurasi alat secara fisik |
+
+## Wiring Sistem
+
+<div style="display: flex; align-items: flex-start; gap: 20px;">
+<img src="Images/Wiring.jpg" alt="Aimboard Photo" width="1000"/>
+<div>
+
+### Node 1 
+| Perangkat | Pin Perangkat | Terhubung ke ESP32 |
+|---|---|---|
+| BME280 | VCC | 3.3V |
+| BME280 | GND | GND |
+| BME280 | SDA | GPIO 21 |
+| BME280 | SCL | GPIO 22 |
+| LCD 16x2 (I2C, addr 0x27) | VCC | 5V (atau 3.3V, tergantung modul) |
+| LCD 16x2 (I2C, addr 0x27) | GND | GND |
+| LCD 16x2 (I2C, addr 0x27) | SDA | GPIO 21 *(satu bus dengan BME280)* |
+| LCD 16x2 (I2C, addr 0x27) | SCL | GPIO 22 *(satu bus dengan BME280)* |
+| Push Button 1 | PUSH BUTTON | GPIO 33 / GND |
+| Push Button 2 | PUSH BUTTON | GPIO 32 / GND |
+| Push Button 3 | PUSH BUTTON | GPIO 35 / GND |
+| Push Button 4 | PUSH BUTTON | GPIO 34 / GND |
+| Push Button 5 | GND | GND |
+
+\* GPIO 35 bersifat *input-only* dan tidak memiliki pull-up internal,
+sehingga butuh resistor eksternal **10 kΩ antara 3.3V dan GPIO 35**.
+Tiga tombol lainnya (25, 33, 32) sudah cukup dengan `INPUT_PULLUP`
+bawaan ESP32 — tanpa resistor tambahan.
 
 &nbsp;
 
